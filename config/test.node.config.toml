@@ -1,7 +1,8 @@
+IsTrustedSequencer = true
 
 [Log]
 Environment = "development" # "production" or "development"
-Level = "info"
+Level = "debug"
 Outputs = ["stderr"]
 
 [StateDB]
@@ -15,8 +16,9 @@ MaxConns = 200
 
 [Pool]
 FreeClaimGasLimit = 1500000
-MaxTxBytesSize=30132
-MaxTxDataBytesSize=30000
+IntervalToRefreshBlockedAddresses = "5m"
+MaxTxBytesSize=100132
+MaxTxDataBytesSize=100000
 DefaultMinGasPriceAllowed = 1000000000
 MinAllowedGasPriceInterval = "5m"
 PollMinAllowedGasPriceInterval = "15s"
@@ -30,38 +32,30 @@ PollMinAllowedGasPriceInterval = "15s"
 	MaxConns = 200
 
 [Etherman]
-URL = "https://eth-sepolia.g.alchemy.com/v2/sbqHpezL4bUJUsfM5BMOG5FPeHcQ_1qQ"
-L1ChainID = 11155111
-PoEAddr = "0xFd06E4269a1D9Bde43A7EeDd275Bbd28c6A766ef"
-MaticAddr = "0x44720A8AA78BB4BdEa9D220aD5bC8187adCCc289"
-GlobalExitRootManagerAddr = "0x54E967b977210Bb20bD9c77c5FA3C9aaCC296ECe"
+URL = "https://bsc-rpc.alishdahal.com.np/"
 MultiGasProvider = false
-	[Etherman.Etherscan]
+	[Etherscan]
 		ApiKey = ""
 
 [RPC]
 Host = "0.0.0.0"
 Port = 8123
-ReadTimeoutInSec = 60
-WriteTimeoutInSec = 60
+ReadTimeout = "60s"
+WriteTimeout = "60s"
 MaxRequestsPerIPAndSecond = 5000
 SequencerNodeURI = ""
-BroadcastURI = "127.0.0.1:61090"
-DefaultSenderAddress = "0x1111111111111111111111111111111111111111"
 EnableL2SuggestedGasPricePolling = true
 	[RPC.WebSockets]
 		Enabled = true
 		Port = 8133
 
 [Synchronizer]
-SyncInterval = "2s"
+SyncInterval = "1s"
 SyncChunkSize = 100
-GenBlockNumber = 3484476
-trustedSequencerURL = ""
+TrustedSequencerURL = "" # If it is empty or not specified, then the value is read from the smc.
 
 [Sequencer]
 WaitPeriodPoolIsEmpty = "1s"
-WaitPeriodSendSequence = "15s"
 LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
 BlocksAmountForTxsToBeDeleted = 100
 FrequencyToCheckTxsForDelete = "12h"
@@ -86,33 +80,40 @@ WeightBinaries = 1
 WeightSteps = 1
 TxLifetimeCheckTimeout = "10m"
 MaxTxLifetime = "3h"
-MaxTxSizeForL1 = 131072
 	[Sequencer.Finalizer]
-		GERDeadlineTimeoutInSec = "2s"
-		ForcedBatchDeadlineTimeoutInSec = "60s"
-		SendingToL1DeadlineTimeoutInSec = "20s"
-		SleepDurationInMs = "100ms"
+		GERDeadlineTimeout = "2s"
+		ForcedBatchDeadlineTimeout = "5s"
+		SleepDuration = "100ms"
 		ResourcePercentageToCloseBatch = 10
 		GERFinalityNumberOfBlocks = 0
 		ClosingSignalsManagerWaitForCheckingL1Timeout = "10s"
 		ClosingSignalsManagerWaitForCheckingGER = "10s"
 		ClosingSignalsManagerWaitForCheckingForcedBatches = "10s"
 		ForcedBatchesFinalityNumberOfBlocks = 0
-		SenderAddress = "0xAcB1847B82789968BFC8B1D5A295B392AC5C99B7"
-		PrivateKeys = [{Path = "/pk/sequencer.keystore", Password = "testonly"}]
+		TimestampResolution = "10s"
 	[Sequencer.DBManager]
 		PoolRetrievalInterval = "500ms"
+		L2ReorgRetrievalInterval = "5s"
+	[Sequencer.Worker]
+		ResourceCostMultiplier = 1000
+
+[SequenceSender]
+WaitPeriodSendSequence = "15s"
+LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
+MaxTxSizeForL1 = 131072
+SenderAddress = "0xacb1847b82789968bfc8b1d5a295b392ac5c99b7"
+PrivateKeys = [{Path = "/pk/sequencer.keystore", Password = "testonly"}]
 
 [Aggregator]
 Host = "0.0.0.0"
 Port = 50081
-ForkId = 1
+ForkId = 2
 RetryTime = "5s"
-VerifyProofInterval = "30s"
+VerifyProofInterval = "10s"
 TxProfitabilityCheckerType = "acceptall"
 TxProfitabilityMinReward = "1.1"
 ProofStatePollingInterval = "5s"
-SenderAddress = "0x3b599274eC73a72A93E2d59Cb0D2987e8bA95d5b"
+SenderAddress = "0x3b599274ec73a72a93e2d59cb0d2987e8ba95d5b"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
 
@@ -134,10 +135,6 @@ URI  = "zkevm-prover:50061"
 
 [Executor]
 URI = "zkevm-prover:50071"
-
-[BroadcastServer]
-Host = "0.0.0.0"
-Port = 61090
 
 [Metrics]
 Host = "0.0.0.0"

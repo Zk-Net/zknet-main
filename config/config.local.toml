@@ -12,7 +12,7 @@ Port = "5435"
 MaxConns = 20
 
 [Etherman]
-L1URL = "https://eth-sepolia.g.alchemy.com/v2/sbqHpezL4bUJUsfM5BMOG5FPeHcQ_1qQ"
+L1URL = "https://bsc-rpc.alishdahal.com.np/"
 L2URLs = ["http://zkevm-json-rpc:8123"]
 
 [Synchronizer]
@@ -29,10 +29,13 @@ GRPCPort = "9090"
 HTTPPort = "8080"
 
 [NetworkConfig]
-GenBlockNumber = 3484476
-PoEAddr = "0xFd06E4269a1D9Bde43A7EeDd275Bbd28c6A766ef"
-BridgeAddr = "0xfD0160288864CF09e3dD1fA3Ad1Fe2B34F09E153"
-GlobalExitRootManAddr = "0x54E967b977210Bb20bD9c77c5FA3C9aaCC296ECe"
-MaticAddr = "0x3b11C06B3Aac6D0f2bc676FBaD2Ca0313935e770"
-L2BridgeAddrs = ["0xfD0160288864CF09e3dD1fA3Ad1Fe2B34F09E153"]
-L1ChainID = 11155111
+GenBlockNumber = 31684795
+PolygonZkEVMAddress = "0x8C815892da4e8b7f460BaE669Dfa641603CEa287"
+PolygonBridgeAddress = "0x04101acde7459aaD49ab111cB70Bf827A4227915"
+PolygonZkEVMGlobalExitRootAddress = "0x1871e0b27cCd9DE2143C0695fBEb48aFc36f8f0a"
+MaticTokenAddress = "0x85aB5F30b00D40072acE85e6f516AAF9bF5F7484"
+L2PolygonBridgeAddresses = ["0x04101acde7459aaD49ab111cB70Bf827A4227915"]
+L1ChainID = 97
+
+[ClaimTxManager]
+Enabled = true
